@@ -1,0 +1,8 @@
+{
+  "name": "nn-piexl",
+  "private": true,
+  "dependencies": {
+    "canvas": "^1.2.2",
+    "tiny-nn": "git://github.com/uyu-kickstart/tiny-nn"
+  }
+}
