@@ -33,32 +33,42 @@ if (process.argv.length < 9 || typeof startChar !== 'number' ||
 }
 
 var
-meta = require(path.join(data, 'meta.json'));
+dataDir = path.dirname(data),
+meta = require(data);
 
 console.time('load');
-var
-data = Object.keys(meta).map(function (key) {
-  var
-  ch     = meta[key],
-  buf    = fs.readFileSync(path.join(data, key + '.png')),
-  image  = new Canvas.Image,
-  canvas = new Canvas(W, H),
-  ctx    = canvas.getContext('2d'),
-  d, mesh;
+if (Array.isArray(meta)) {
+  data = meta.map(function (d) {
+    return {
+      key: d[0],
+      ch: d[0],
+      mesh: d[1],
+    };
+  });
+} else {
+  data = Object.keys(meta).map(function (key) {
+    var
+    ch     = meta[key],
+    buf    = fs.readFileSync(path.join(dataDir, key + '.png')),
+    image  = new Canvas.Image,
+    canvas = new Canvas(W, H),
+    ctx    = canvas.getContext('2d'),
+    d, mesh;
 
-  image.src = buf;
+    image.src = buf;
 
-  ctx.drawImage(image, 0, 0);
-  d = ctx.getImageData(0, 0, W, H);
-  rect = chars.charRect(d);
-  mesh = chars.charMesh(d, rect, 32, 0.1);
+    ctx.drawImage(image, 0, 0);
+    d = ctx.getImageData(0, 0, W, H);
+    rect = chars.charRect(d);
+    mesh = chars.charMesh(d, rect, 32, 0.1);
 
-  return {
-    key: key,
-    ch: ch,
-    mesh: mesh,
-  };
-});
+    return {
+      key: key,
+      ch: ch,
+      mesh: mesh,
+    };
+  });
+}
 console.timeEnd('load');
 
 if (network === undefined) {
