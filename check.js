@@ -1,9 +1,11 @@
+'use strict';
+
 var
-chars  = require('./chars'),
-fs     = require('fs'),
-nn     = require('tiny-nn'),
-path   = require('path'),
-Canvas = require('canvas');
+chars     = require('./chars'),
+fs        = require('fs'),
+nn        = require('tiny-nn'),
+path      = require('path'),
+Canvas    = require('canvas');
 
 var
 W, H = W = 300;
@@ -14,7 +16,7 @@ train = process.argv[3],
 test = process.argv[4];
 
 if (typeof startChar === 'undefined' ||
-    typeof file === 'undefiled' ||
+    typeof train === 'undefiled' ||
     typeof test  === 'undefined') {
   console.log('[usage]: node check.js [startChar] [train] [test]');
   process.exit(0);
